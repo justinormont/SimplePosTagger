@@ -1,11 +1,4 @@
-//*****************************************************************************************
-//*                                                                                       *
-//* This is an auto-generated file by Microsoft ML.NET CLI (Command-Line Interface) tool. *
-//*                                                                                       *
-//*****************************************************************************************
-
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.ML;
@@ -126,6 +119,7 @@ namespace Simple.ConsoleApp
             string[] classNames = classNamesVBuffer.DenseValues().Select(a => a.ToString()).ToArray();
 
             var metrics = mlContext.MulticlassClassification.Evaluate(predictions, "Label", "Score", topKPredictionCount: numClasses); // Todo: fix bug to allow for `topKPredictionCount: Int32.MaxValue` 
+            PrintMulticlassClassificationMetrics(metrics, classNames);
             Console.WriteLine($"===== Finished Evaluating Model's accuracy with Test data =====");
         }
 
@@ -147,32 +141,32 @@ namespace Simple.ConsoleApp
             return fullPath;
         }
 
-        public static void PrintMulticlassClassificationMetrics(MulticlassClassificationMetrics metrics, string[] classNames, Action<string> writer)
+        public static void PrintMulticlassClassificationMetrics(MulticlassClassificationMetrics metrics, string[] classNames)
         {
-            writer($"************************************************************");
-            writer($"*    Metrics for multi-class classification model   ");
-            writer($"*-----------------------------------------------------------");
-            writer($"Accuracy (micro-avg):              {metrics.MicroAccuracy:0.0000}   # 0..1, higher is better");
-            writer($"Accuracy (macro):                  {metrics.MacroAccuracy:0.0000}   # 0..1, higher is better");
-            //writer($"Top-K accuracy:                    [{string.Join(", ", metrics?.TopKAccuracyForAllK?.Select(a => $"{a:0.0000}") ?? new string[] { "Set topKPredictionCount in evaluator to view" })}]   # 0..1, higher is better");
-            writer($"Log-loss reduction:                {metrics.LogLossReduction:0.0000;-0.000}   # -Inf..1, higher is better");
-            writer($"Log-loss:                          {metrics.LogLoss:0.0000}   # 0..Inf, lower is better");
-            writer("\nPer class metrics");
+            Console.WriteLine($"************************************************************");
+            Console.WriteLine($"*    Metrics for multi-class classification model   ");
+            Console.WriteLine($"*-----------------------------------------------------------");
+            Console.WriteLine($"Accuracy (micro-avg):              {metrics.MicroAccuracy:0.0000}   # 0..1, higher is better");
+            Console.WriteLine($"Accuracy (macro):                  {metrics.MacroAccuracy:0.0000}   # 0..1, higher is better");
+            Console.WriteLine($"Top-K accuracy:                    [{string.Join(", ", metrics?.TopKAccuracyForAllK?.Select(a => $"{a:0.0000}") ?? new string[] { "Set topKPredictionCount in evaluator to view" })}]   # 0..1, higher is better");
+            Console.WriteLine($"Log-loss reduction:                {metrics.LogLossReduction:0.0000;-0.000}   # -Inf..1, higher is better");
+            Console.WriteLine($"Log-loss:                          {metrics.LogLoss:0.0000}   # 0..Inf, lower is better");
+            Console.WriteLine("\nPer class metrics");
             for (int i = 0; i < metrics.PerClassLogLoss.Count; i++)
             {
-                writer($"LogLoss for class {i} ({classNames[i] + "):",-11}   {metrics.PerClassLogLoss[i]:0.0000}   # 0..Inf, lower is better");
+                Console.WriteLine($"LogLoss for class {i} ({classNames[i] + "):",-11}   {metrics.PerClassLogLoss[i]:0.0000}   # 0..Inf, lower is better");
             }
             for (int i = 0; i < metrics.PerClassLogLoss.Count; i++)
             {
-                writer($"Precision for class {i} ({classNames[i] + "):",-11} {metrics.ConfusionMatrix.PerClassPrecision[i]:0.0000}   # 0..1, higher is better");
+                Console.WriteLine($"Precision for class {i} ({classNames[i] + "):",-11} {metrics.ConfusionMatrix.PerClassPrecision[i]:0.0000}   # 0..1, higher is better");
             }
             for (int i = 0; i < metrics.PerClassLogLoss.Count; i++)
             {
-                writer($"Recall for class {i} ({classNames[i] + "):",-11}    {metrics.ConfusionMatrix.PerClassRecall[i]:0.0000}   # 0..1, higher is better");
+                Console.WriteLine($"Recall for class {i} ({classNames[i] + "):",-11}    {metrics.ConfusionMatrix.PerClassRecall[i]:0.0000}   # 0..1, higher is better");
             }
-            writer("");
-            writer(metrics.ConfusionMatrix.GetFormattedConfusionTable());
-            writer($"************************************************************");
+            Console.WriteLine("");
+            Console.WriteLine(metrics.ConfusionMatrix.GetFormattedConfusionTable());
+            Console.WriteLine($"************************************************************");
         }
     }
 }

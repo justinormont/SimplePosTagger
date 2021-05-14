@@ -1,15 +1,8 @@
-//*****************************************************************************************
-//*                                                                                       *
-//* This is an auto-generated file by Microsoft ML.NET CLI (Command-Line Interface) tool. *
-//*                                                                                       *
-//*****************************************************************************************
-
 using System;
 using System.IO;
 using System.Linq;
 using Microsoft.ML;
 using Simple.Model.DataModels;
-
 
 namespace Simple.ConsoleApp
 {

@@ -1,9 +1,3 @@
-//*****************************************************************************************
-//*                                                                                       *
-//* This is an auto-generated file by Microsoft ML.NET CLI (Command-Line Interface) tool. *
-//*                                                                                       *
-//*****************************************************************************************
-
 using Microsoft.ML.Data;
 
 namespace Simple.Model.DataModels
@@ -24,7 +18,5 @@ namespace Simple.Model.DataModels
 
         [ColumnName("Context"), LoadColumn(3)]
         public string Context { get; set; }
-
-
     }
 }
